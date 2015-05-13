@@ -628,6 +628,38 @@ console.log(isValidSudoku(["..9748...","7........",".2.1.9...","..7...24.",".64.
 })(false); // no!!!!!!
 
 
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 22
+// Two Sum
+// https://leetcode.com/problems/two-sum/
+
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function(nums, target) {
+  var len = nums.length, r =[], i = 0, j = 1, sortA = nums.concat().sort(function(a, b){return a - b})
+  for(;i + j < len;){
+    var x = sortA[i], y = sortA[len - j]
+    if(x + y == target){
+      r = [nums.indexOf(x)+1, nums.lastIndexOf(y) + 1]
+      return r[0] < r[1] ? r : [r[1], r[0]]
+    }
+    else if(x + y < target) i++
+    else j++
+  }
+  return r
+};
+
+console.log(twoSum([0,4,3,0], 0));
+
+})(false);
 
 
 
