@@ -661,6 +661,63 @@ console.log(twoSum([0,4,3,0], 0));
 
 })(false);
 
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 23
+// Add Two Numbers
+// https://leetcode.com/problems/add-two-numbers/
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+
+
+function ListNode(val) {
+    this.val = val;
+    this.next = null;
+}
+
+var l1 = new ListNode(2)
+l1.next = new ListNode(4)
+l1.next.next = new ListNode(3)
+
+var l2 = new ListNode(5)
+l2.next = new ListNode(6)
+l2.next.next = new ListNode(4)
+
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+var addTwoNumbers = function(l1, l2) {
+  var sum = l1.val + l2.val, next1 = l1.next, next2 = l2.next, l3 = new ListNode(sum % 10), node = l3
+  sum = ~~(sum / 10);
+  while(next1 || next2 || sum){
+    sum += (next1 ? next1.val : 0) + (next2 ? next2.val : 0)
+    node.next = new ListNode(sum % 10)
+    node = node.next
+    next1 = next1 ? next1.next : null
+    next2 = next2 ? next2.next : null
+    sum = ~~(sum / 10)
+  }
+  return l3
+};
+
+var l3 = addTwoNumbers(l1, l2)
+console.log(l3.val);
+console.log(l3.next.val);
+console.log(l3.next.next.val);
+
+})(true);
 
 
 
