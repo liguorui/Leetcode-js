@@ -717,9 +717,39 @@ console.log(l3.val);
 console.log(l3.next.val);
 console.log(l3.next.next.val);
 
-})(true);
+})(false);
 
 
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 23
+// Longest Substring Without Repeating Characters
+// https://leetcode.com/problems/longest-substring-without-repeating-characters/
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var lengthOfLongestSubstring = function(s) {
+  var str = s[0], n = s ? 1 : 0
+  for(var i=1; i<s.length; i++){
+    var ind = str.indexOf(s[i])
+    if(ind != -1){
+      str = str.substr(ind + 1) + s[i]
+    }else{
+      str += s[i]
+      n = Math.max(n, str.length)
+    }
+  }
+  return n
+};
+
+console.log(lengthOfLongestSubstring('abcabcbb'));
+
+})(false);
 
 
 
