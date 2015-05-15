@@ -726,7 +726,7 @@ console.log(l3.next.next.val);
 ;(function(go){
 if(!go) return;
 
-// 23
+// 24
 // Longest Substring Without Repeating Characters
 // https://leetcode.com/problems/longest-substring-without-repeating-characters/
 /**
@@ -737,9 +737,8 @@ var lengthOfLongestSubstring = function(s) {
   var str = s[0], n = s ? 1 : 0
   for(var i=1; i<s.length; i++){
     var ind = str.indexOf(s[i])
-    if(ind != -1){
-      str = str.substr(ind + 1) + s[i]
-    }else{
+    if(ind !== -1) str = str.substr(ind + 1) + s[i]
+    else{
       str += s[i]
       n = Math.max(n, str.length)
     }
@@ -750,6 +749,106 @@ var lengthOfLongestSubstring = function(s) {
 console.log(lengthOfLongestSubstring('abcabcbb'));
 
 })(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 25
+// Median of Two Sorted Arrays
+// https://leetcode.com/problems/median-of-two-sorted-arrays/
+
+
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number}
+ */
+var findMedianSortedArrays = function(nums1, nums2) {
+  var total = nums1.length + nums2.length
+  if(total % 2) return findKth(nums1, nums2, ~~(total / 2) + 1)
+  else return (findKth(nums1, nums2, ~~(total / 2)) + findKth(nums1, nums2, ~~(total / 2) + 1)) / 2
+  function findKth(arr1, arr2, k){
+    var len1 = arr1.length, len2 = arr2.length
+    if(len1 > len2) return findKth(arr2, arr1, k)
+    if(len1 == 0) return arr2[k - 1]
+    if(k == 1) return Math.min(arr1[0], arr2[0])
+    var pa = Math.min(~~(k / 2), len1), pb = k - pa
+    if(arr1[pa - 1] < arr2[pb - 1]) return findKth(arr1 + pa, arr2, k - pa)
+    else if(arr1[pa - 1] > arr2[pb - 1]) return findKth(arr1, arr2 + pb, k - pb)
+    else return arr1[pa - 1]
+  }
+};
+
+console.log(findMedianSortedArrays([-5,-2,9,18], [-2,5,12]));
+
+})(false); // no !!!!
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 26
+// Longest Palindromic Substring
+// https://leetcode.com/problems/longest-palindromic-substring/
+
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var longestPalindrome = function(s) {
+  var arr =[], str = s[0];
+  ('~' + (s.split('').join('~')) + '~').split('').forEach(function(i, j, k){
+    var ind = 1
+    while(j - ind >= 0 && j + ind < k.length && k[j - ind] === k[j + ind]) ind++
+    if(ind - 1 > str.length) str = s.substr((j - ind + 1) / 2, ind - 1)
+  })
+  return str
+};
+
+console.log(longestPalindrome('sdgabsbagv'));
+
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 27
+// ZigZag Conversion
+// https://leetcode.com/problems/zigzag-conversion/
+
+/**
+ * @param {string} s
+ * @param {number} numRows
+ * @return {string}
+ */
+var convert = function(s, numRows) {
+    
+};
+
+})(true);
+
+
+
+
+
+
+
+
+
+
 
 
 
