@@ -264,17 +264,26 @@ if(!go) return;
  * @return {ListNode}
  */
 var getIntersectionNode = function(headA, headB) {
-    var arr = []
-    for(var i=0, la=headA.length, lb=headB.length;i<la;i++){
-    	if(headA[la-1-i]==headB[lb-1-i]) arr.push(headA[la-1-i])
+  var nodeA = headA, nodeB = headB, min, max, i = 0, lenA = 0, lenB = 0, len
+  while(nodeA && ++lenA){ nodeA = nodeA.next }
+  while(nodeB && ++lenB){ nodeB = nodeB.next }
+  min = lenA < lenB ? headA : headB
+  max = lenA < lenB ? headB : headA
+  len = Math.abs(lenA - lenB)
+  while(max){
+    if(len <= i++){
+      if(min.val === max.val) return min
+      min = min.next
     }
-	return arr.length==0?null:arr.reverse()
+    max = max.next
+  }
+	return null
 }
 
 
-console.log(getIntersectionNode([2,5,1,3,5,6,2],[10,2,5,65,6,2]));
+// console.log(getIntersectionNode([2,5,1,3,5,6,2],[10,2,5,65,6,2]));
 
-})(false); // no!!!!!!
+})(false);
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -700,14 +709,11 @@ l2.next.next = new ListNode(4)
  */
 var addTwoNumbers = function(l1, l2) {
   var sum = l1.val + l2.val, next1 = l1.next, next2 = l2.next, l3 = new ListNode(sum % 10), node = l3
-  sum = ~~(sum / 10);
-  while(next1 || next2 || sum){
+  while((sum = ~~(sum / 10)) || next1 || next2){
     sum += (next1 ? next1.val : 0) + (next2 ? next2.val : 0)
-    node.next = new ListNode(sum % 10)
-    node = node.next
+    node = node.next = new ListNode(sum % 10)
     next1 = next1 ? next1.next : null
     next2 = next2 ? next2.next : null
-    sum = ~~(sum / 10)
   }
   return l3
 };
@@ -835,17 +841,201 @@ if(!go) return;
  * @return {string}
  */
 var convert = function(s, numRows) {
-    
+  for(var i=0, arr = Array(numRows), down = true, ind = 0; i<s.length; i++){
+    var row = down ? ind : numRows - 1 - ind
+    arr[row] = arr[row] ? arr[row] + s[i] : s[i]
+    if(++ind === numRows - 1 && !(ind = 0)) down = !down
+  }
+  return arr.join('')
 };
 
-})(true);
+console.log(convert('PAYPALISHIRING', 3));
+
+
+})(false);
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 28
+// String to Integer (atoi)
+// https://leetcode.com/problems/string-to-integer-atoi/
+
+/**
+ * @param {string} str
+ * @return {number}
+ */
+var myAtoi = function(str) {
+  var num = parseInt(str.replace(/(^\s*)/g, ''))
+  return isNaN(num) ? 0 : num < -2147483648 ? -2147483648 : num > 2147483647 ? 2147483647 : num
+};
+
+console.log(myAtoi('  -0012a42'));
+
+
+})(false);
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 29
+// Container With Most Water
+// https://leetcode.com/problems/container-with-most-water/
+
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
+var maxArea = function(height) {
+  return height.reduce(function(max, i, j, k){
+    for(var x=j+1;x<k.length; x++) max = Math.max(max, Math.abs(i-k[x])*(j+x)/2)
+    return max
+  }, 0)
+};
+
+console.log(maxArea([2,5,7,3,9]));
+
+
+})(false); // no!!!
 
 
 
 
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 30
+// Integer to Roman
+// https://leetcode.com/problems/integer-to-roman/
+
+/**
+ * @param {number} num
+ * @return {string}
+ */
+var intToRoman = function(num) {
+    var a = [1000,900,500,400,100,90,50,40,10,9,5,4,1],
+        r = ["M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"],
+        t = ""
+    a.forEach(function(x, y){ while(num >= x && (t += r[y]) && (num -= x)){}})
+    return t
+};
+
+console.log(maxArea([2,5,7,3,9]));
+
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 31
+// Roman to Integer
+// https://leetcode.com/problems/roman-to-integer/
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var romanToInt = function(s) {
+  var sum = 0, i = 0, n = s.split(''), data = {M: 1000, D: 500, C: 100, L: 50, X: 10, V: 5, I: 1}
+  for(; i < n.length; i++){
+    if(data[n[i]] < data[n[i+1]]) sum += data[n[i+1]] - data[n[i++]]
+    else sum += data[n[i]]
+  }
+  return sum
+};
+
+
+})(false);
 
 
 
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 32
+// Isomorphic Strings
+// https://leetcode.com/problems/isomorphic-strings/
+
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {boolean}
+ */
+var isIsomorphic = function(s, t) {
+  var arr = [[],[]]
+  return s.split('').every(function(i,j){
+    var ind = arr[0].indexOf(i), isIs = arr[1].indexOf(t[j]) === ind
+    if(ind === -1 && arr[0].push(i) && arr[1].push(t[j])){ }
+    return isIs
+  })
+};
+
+console.log(isIsomorphic('foo', 'bar'));
+// Given "egg", "add", return true.
+
+// Given "foo", "bar", return false.
+
+// Given "paper", "title", return true.
+
+})(false);
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 33
+// Remove Linked List Elements
+// https://leetcode.com/problems/remove-linked-list-elements/
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} val
+ * @return {ListNode}
+ */
+var removeElements = function(head, val) {
+  while(head && head.val === val){ head = head.next }
+  var node = newHead = head
+  while(node){
+    if(node.next && node.next.val === val) node.next = node.next.next
+    else node = node.next
+  }
+  return newHead
+};
+
+})(false);
 
 
 
