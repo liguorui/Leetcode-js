@@ -1037,6 +1037,174 @@ var removeElements = function(head, val) {
 
 })(false);
 
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 34
+// Remove Nth Node From End of List 
+// https://leetcode.com/problems/remove-nth-node-from-end-of-list/
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+
+function ListNode(val) {
+  this.val = val;
+  this.next = null;
+}
+
+var l1 = new ListNode(1)
+l1.next = new ListNode(2)
+
+/**
+ * @param {ListNode} head
+ * @param {number} n
+ * @return {ListNode}
+ */
+var removeNthFromEnd = function(head, n) {
+  var len = 0, node = head, ind = 0
+  while(node){ len++; node = node.next }
+  if(n === len) return head.next
+  node = head
+  while(node){
+    if(++ind === len - n) node.next = node.next.next
+    node = node.next
+  }
+  return head
+};
+
+console.log(removeNthFromEnd(l1, 1));
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 35
+// Pascal's Triangle 
+// https://leetcode.com/problems/pascals-triangle/
+
+/**
+ * @param {number} numRows
+ * @return {number[][]}
+ */
+var generate = function(numRows) {
+  for(var i=0, r = [], k; i<numRows; i++){
+    k = []
+    for(var j=0; j<=i; j++) k.push(j===0 || j===i ? 1 : r[i-1][j-1] + r[i-1][j])
+    r.push(k)
+  }
+  return r
+};
+
+})(false);
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 36
+// Pascal's Triangle II
+// https://leetcode.com/problems/pascals-triangle-ii/
+
+/**
+ * @param {number} rowIndex
+ * @return {number[]}
+ */
+var getRow = function(rowIndex) {
+  for(var i=0, r = [], k; i<rowIndex+1; i++){
+    k = []
+    for(var j=0; j<=i; j++) k.push(j===0 || j===i ? 1 : r[i-1][j-1] + r[i-1][j])
+    r.push(k)
+  }
+  return r[rowIndex]
+};
+
+})(false);
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 37
+// Length of Last Word
+// https://leetcode.com/problems/length-of-last-word/
+
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var lengthOfLastWord = function(s) {
+  var s = s.replace(/(^\s*)|(\s*$)/g,''), ind = s.lastIndexOf(' ')
+  return s.length ===0 ? 0 : ind === -1 ? s.length : s.substr(ind+1).length
+};
+
+console.log(lengthOfLastWord('b a '));
+
+})(false);
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 38
+// Merge Two Sorted Lists 
+// https://leetcode.com/problems/merge-two-sorted-lists/
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+
+function ListNode(val) {
+  this.val = val;
+  this.next = null;
+}
+
+var l1 = new ListNode(1)
+var l2 = new ListNode(2)
+
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+var mergeTwoLists = function(l1, l2) {
+  var node = l1, isMerge = true
+  while(node && isMerge){
+    if(node.next === null){
+      isMerge = false
+      node.next = l2
+    }
+    else node = node.next
+  }
+  return l1 ? l1 : l2
+};
+
+console.log(mergeTwoLists(l1, l2));
+
+})(false); // no!!!
 
 
 
