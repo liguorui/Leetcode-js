@@ -1317,6 +1317,37 @@ var minDepth = function(root) {
 })(false); 
 
 
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 42
+// Balanced Binary Tree
+// https://leetcode.com/problems/balanced-binary-tree/
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+ var isBalanced = function(root) {
+  if(!root || (!root.left && !root.right)) return true
+  if(Math.abs(depth(root.left) - depth(root.right)) > 1) return false
+  function depth(node){ return node ? 1 + Math.max(depth(node.left), depth(node.right)) : 0 }
+  return isBalanced(root.left) && isBalanced(root.right)
+};
+
+
+})(false); 
+
 
 
 
