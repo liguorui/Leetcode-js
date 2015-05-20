@@ -1349,6 +1349,41 @@ if(!go) return;
 })(false); 
 
 
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 43
+// Maximum Depth of Binary Tree
+// https://leetcode.com/problems/maximum-depth-of-binary-tree/
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var maxDepth = function(root) {
+  var max = 0
+  function findMax(node, deep){
+    if(!node.left && !node.right) max = max == 0 ? deep : max > deep ? max : deep
+    else{
+      if(node.left) findMax(node.left, deep+1)
+      if(node.right) findMax(node.right, deep+1)
+    }
+  }
+  if(root) findMax(root, 1)
+  return max
+};
+
+})(false); 
 
 
 
