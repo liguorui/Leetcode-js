@@ -1193,7 +1193,7 @@ var l2 = new ListNode(2)
 var mergeTwoLists = function(l1, l2) {
   var node = l1, isMerge = true
   while(node && isMerge){
-    if(node.next === null){
+    if(!node.next){
       isMerge = false
       node.next = l2
     }
@@ -1207,6 +1207,63 @@ console.log(mergeTwoLists(l1, l2));
 })(false); // no!!!
 
 
+////////////////////////////////////////////////////////////////////////////////
 
 
+;(function(go){
+if(!go) return;
+
+// 39
+// Reverse Linked List 
+// https://leetcode.com/problems/reverse-linked-list/
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var reverseList = function(head) {
+  if(!head || !head.next) return head
+  var p = head.next, n = reverseList(p)
+  head.next = null
+  p.next = head
+  return n
+};
+
+})(false); 
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 40
+// Path Sum 
+// https://leetcode.com/problems/path-sum/
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} sum
+ * @return {boolean}
+ */
+var hasPathSum = function(root, sum) {
+    
+};
+
+})(false); 
 
