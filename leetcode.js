@@ -1262,8 +1262,63 @@ if(!go) return;
  * @return {boolean}
  */
 var hasPathSum = function(root, sum) {
-    
+  var isFind = false
+  function find(node, s){
+    if(!isFind){
+      s += node.val
+      if((!node.right) && (!node.left) && (s === sum)) isFind = true
+      if(node.right) find(node.right, s)
+      if(node.left) find(node.left, s)
+    }
+  }
+  if(root) find(root, 0)
+  return isFind
 };
 
 })(false); 
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 41
+// Minimum Depth of Binary Tree 
+// https://leetcode.com/problems/minimum-depth-of-binary-tree/
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var minDepth = function(root) {
+  var min = 0
+  function findMin(node, deep){
+    if(!min || deep < min){
+      if(!node.left && !node.right) min = min == 0 ? deep : min > deep ? deep : min
+      else{
+        if(node.left) findMin(node.left, deep+1)
+        if(node.right) findMin(node.right, deep+1)
+      }
+    }
+  }
+  if(root) findMin(root, 1)
+  return min
+};
+
+})(false); 
+
+
+
+
+
+
 
