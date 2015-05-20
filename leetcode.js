@@ -1359,6 +1359,7 @@ if(!go) return;
 // Maximum Depth of Binary Tree
 // https://leetcode.com/problems/maximum-depth-of-binary-tree/
 
+
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
@@ -1381,6 +1382,45 @@ var maxDepth = function(root) {
   }
   if(root) findMax(root, 1)
   return max
+};
+
+})(false); 
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 44
+// Binary Tree Level Order Traversal
+// https://leetcode.com/problems/binary-tree-level-order-traversal/
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[][]}
+ */
+var levelOrder = function(root) {
+  var r = [], node = [root]
+  while(node && node[0]){
+    var nextLevel = [], arr = []
+    node.forEach(function(i){
+      arr.push(i.val)
+      if(i.left) nextLevel.push(i.left)
+      if(i.right) nextLevel.push(i.right)
+    })
+    r.push(arr)
+    node = nextLevel
+  }
+  return r
 };
 
 })(false); 
