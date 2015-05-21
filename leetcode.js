@@ -1626,7 +1626,64 @@ var maxPathSum = function(root) {
 
 
 
+////////////////////////////////////////////////////////////////////////////////
 
+
+;(function(go){
+if(!go) return;
+
+// 51
+// Flatten Binary Tree to Linked List 
+// https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {void} Do not return anything, modify root in-place instead.
+ */
+var flatten = function(root) {
+  function flattenTree(node) {
+    if(!node) return node
+    var left = flattenTree(node.left), right = flattenTree(node.right)
+    if(!left) return right ? right : node;
+    left.right = node.right
+    node.right = node.left
+    node.left = null
+    return right ? right : left
+  }
+  flattenTree(root)
+};
+
+})(false);
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 52
+// Valid Number
+// https://leetcode.com/problems/valid-number/
+
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var isNumber = function(s) {
+  return (Number(s) === 0 || !!Number(s)) && (s.trim() !== "")
+};
+
+})(false);
 
 
 
