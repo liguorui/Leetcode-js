@@ -1679,5 +1679,66 @@ var isNumber = function(s) {
 })(false);
 
 
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 53
+// Triangle
+// https://leetcode.com/problems/triangle/
+
+/**
+ * @param {number[][]} triangle
+ * @return {number}
+ */
+var minimumTotal = function(triangle) {
+  for (var i = triangle.length - 2; i >= 0; i--){
+    for (var j = 0, prev = triangle[i], next = triangle[i + 1]; j < prev.length; j++) 
+      prev[j] += next[j] > next[j + 1] ? next[j + 1] : next[j]
+  }
+  return triangle[0][0]
+};
+
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 54
+// Binary Tree Preorder Traversal 
+// https://leetcode.com/problems/binary-tree-preorder-traversal/
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var preorderTraversal = function(root) {
+  if(!root) return []
+  var r = [], stack = [root]
+  while(stack.length) {
+    var node = stack.pop()
+    r.push(node.val)
+    if(node.right) stack.push(node.right)
+    if(node.left) stack.push(node.left)
+  }
+  return r
+};
+
+
+})(false);
 
 
