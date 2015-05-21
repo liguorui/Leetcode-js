@@ -1908,6 +1908,34 @@ var removeElement = function(nums, val) {
 
 })(false);
 
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 61
+// Add Binary
+// https://leetcode.com/problems/add-binary/
+
+/**
+ * @param {string} a
+ * @param {string} b
+ * @return {string}
+ */
+var addBinary = function(a, b) {
+  var len = Math.max((a = a.split('').reverse()).length, (b = b.split('').reverse()).length), i = 0, sum = 0, r = []
+  while(!!a[i] || !!b[i] || sum){
+    sum += ~~a[i] + ~~b[i++]
+    r.push(sum % 2)
+    sum = ~~(sum/2)
+  }
+  return r.reverse().join('')
+};
+
+console.log(addBinary('1111', '101'));
+
+})(true);
 
 
 
