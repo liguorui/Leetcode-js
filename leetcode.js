@@ -1656,8 +1656,6 @@ var flatten = function(root) {
 })(false);
 
 
-
-
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -1740,5 +1738,98 @@ var preorderTraversal = function(root) {
 
 
 })(false);
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 55
+// Spiral Matrix II 
+// https://leetcode.com/problems/spiral-matrix-ii/
+
+/**
+ * @param {number} n
+ * @return {number[][]}
+ */
+var generateMatrix = function(n) {
+  var r = [], num = 0, l = ~~(n/2)
+  for(var x = 0; x < n; x++) r[x] = []
+  for(var i = 0; i < l; i++){
+    for(var j = i; j < n-1-i; j++) r[i][j] = ++num
+    for(var j = i; j < n-1-i; j++) r[j][n-1-i] = ++num
+    for(var j = n-1-i; j > i; --j) r[n-1-i][j] = ++num
+    for(var j = n-1-i; j > i; --j) r[j][i] = ++num
+  }
+  if(n%2 == 1) r[l][l] = ++num
+  return r
+};
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 56
+// Spiral Matrix
+// https://leetcode.com/problems/spiral-matrix/
+
+/**
+ * @param {number[][]} matrix
+ * @return {number[]}
+ */
+var spiralOrder = function(matrix) {
+  if(!matrix || matrix.length === 0) return []
+  var r = [], n = [[0, matrix.length-1], [0, matrix[0].length-1]]
+  while(n[0][0] <= n[0][1] && n[1][0] <= n[1][1]){
+    for(var i = n[1][0]; i <= n[1][1]; i++) r.push(matrix[n[0][0]][i])
+    for(var i = n[0][0]+1; i <= n[0][1]; i++) r.push(matrix[i][n[1][1]])
+    if(n[0][0] !== n[0][1]) for(var i = n[1][1]-1; i >= n[1][0]; i--) r.push(matrix[n[0][1]][i])
+    if(n[1][0] !== n[1][1]) for(var i = n[0][1]-1; i > n[0][0]; i--) r.push(matrix[i][n[1][0]])
+    n[0][0]++, n[0][1]--, n[1][0]++, n[1][1]--
+  }
+  return r
+};
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 57
+// Remove Duplicates from Sorted List
+// https://leetcode.com/problems/remove-duplicates-from-sorted-list/
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var deleteDuplicates = function(head) {
+  if(!head) return null
+  var node = head, next = node.next
+  while(next) next = node.val === next.val ? next.next : (node = node.next = next).next
+  node.next = null
+  return head
+};
+
+})(false);
+
+
 
 
