@@ -1831,5 +1831,89 @@ var deleteDuplicates = function(head) {
 })(false);
 
 
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 58
+// Symmetric Tree
+// https://leetcode.com/problems/symmetric-tree/
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+var isSymmetric = function(root) {
+  if(!root) return true
+  function isSymmetricUtil(node1, node2){
+    if(!node1 && !node2) return true
+    if((!node1 && node2) || (node1 && !node2)) return false
+    return node1.val === node2.val && isSymmetricUtil(node1.left, node2.right) && isSymmetricUtil(node1.right, node2.left)
+  }
+  return isSymmetricUtil(root.left, root.right)
+};
+
+})(false);
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 59
+// Climbing Stairs
+// https://leetcode.com/problems/climbing-stairs/
+
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var climbStairs = function(n) {
+  for(var i = 2, step = [1, 2]; i < n; i++) step[i] = step[i-1] + step[i-2]
+  return n <= 2 ? n : step[n-1]
+};
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 60
+// Remove Element
+// https://leetcode.com/problems/remove-element/
+
+/**
+ * @param {number[]} nums
+ * @param {number} val
+ * @return {number}
+ */
+var removeElement = function(nums, val) {
+  for(var i = 0; i < nums.length; i++){ if(nums[i] === val) nums.splice(i--, 1) }
+  return nums.length
+};
+
+})(false);
+
+
+
+
+
+
+
+
 
 
