@@ -1465,4 +1465,169 @@ var levelOrder = function(root) {
 })(false); 
 
 
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 46
+// Same Tree
+// https://leetcode.com/problems/same-tree/
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} p
+ * @param {TreeNode} q
+ * @return {boolean}
+ */
+var isSameTree = function(p, q) {
+  var isSame = true
+  function same(a, b){
+    if(isSame){
+      if((!!a) !== (!!b) || a.val !== b.val || (!!a.left) !== (!!b.left) || (!!a.right) !== (!!b.right)) isSame = false
+      if(a.left && b.left) same(a.left, b.left)
+      if(a.right && b.right) same(a.right, b.right)
+    }
+  }
+  same(p, q)
+  return isSame
+};
+
+})(false);  // no!!!
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 47
+// Merge Sorted Array
+// https://leetcode.com/problems/merge-sorted-array/
+
+/**
+ * @param {number[]} nums1
+ * @param {number} m
+ * @param {number[]} nums2
+ * @param {number} n
+ * @return {void} Do not return anything, modify nums1 in-place instead.
+ */
+var merge = function(nums1, m, nums2, n) {
+  nums1.length = m
+  nums2.length = n
+  Array.prototype.push.apply(nums1, nums2)
+  nums1 = nums1.sort(function(a, b){return a-b})
+};
+
+var n1 = [3,7], n2 = [2,5,9]
+merge(n1, 2, n2, 3)
+console.log(n1);
+
+})(false);
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 48
+// Remove Duplicates from Sorted Array 
+// https://leetcode.com/problems/remove-duplicates-from-sorted-array/
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var removeDuplicates = function(nums) {
+  var n = 0
+  return nums.filter(function(i, j){
+    return j === 0 || i > nums[j - 1]
+  }).length
+};
+
+console.log(removeDuplicates([1,1,2]));
+
+})(false); // no!!!
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 49
+// Generate Parentheses
+// https://leetcode.com/problems/generate-parentheses/
+
+/**
+ * @param {number} n
+ * @return {string[]}
+ */
+var generateParenthesis = function(n) {
+  var r = []
+  compose(n, n, '')
+  function compose(left, right, s) {
+    if(!left && !right && s.length) return r.push(s)
+    if(left) compose(left - 1, right, s + '(')
+    if(right > left) compose(left, right - 1, s + ')')
+  }
+  return r
+};
+
+})(false);
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 50
+// Binary Tree Maximum Path Sum
+// https://leetcode.com/problems/binary-tree-maximum-path-sum/
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var maxPathSum = function(root) {
+  var max = -Number.MAX_VALUE
+  function getMaxSum(node) {
+    if(!node) return 0
+    var leftSum = getMaxSum(node.left), rightSum = getMaxSum(node.right)
+    max = Math.max(max, node.val + leftSum + rightSum)
+    return Math.max(0, node.val + leftSum, node.val + rightSum)
+  }
+  getMaxSum(root)
+  return max
+};
+
+})(false);
+
+
+
+
+
+
+
 
