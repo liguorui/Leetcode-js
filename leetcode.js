@@ -1488,19 +1488,12 @@ if(!go) return;
  * @return {boolean}
  */
 var isSameTree = function(p, q) {
-  var isSame = true
-  function same(a, b){
-    if(isSame){
-      if((!!a) !== (!!b) || a.val !== b.val || (!!a.left) !== (!!b.left) || (!!a.right) !== (!!b.right)) isSame = false
-      if(a.left && b.left) same(a.left, b.left)
-      if(a.right && b.right) same(a.right, b.right)
-    }
-  }
-  same(p, q)
-  return isSame
+  if(!p && !q) return true
+  if((!p && q) || (p && !q) || p.val !== q.val) return false
+  return isSameTree(p.left, q.left) && isSameTree(p.right, q.right)
 };
 
-})(false);  // no!!!
+})(false);
 
 
 ////////////////////////////////////////////////////////////////////////////////
