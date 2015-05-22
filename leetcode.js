@@ -1191,20 +1191,23 @@ var l2 = new ListNode(2)
  * @return {ListNode}
  */
 var mergeTwoLists = function(l1, l2) {
-  var node = l1, isMerge = true
-  while(node && isMerge){
-    if(!node.next){
-      isMerge = false
-      node.next = l2
+  var head, node, self, first = 0
+  while(node || !first++){
+    if(l1 && l2){
+      if(l1.val < l2.val) l1 = (self = l1).next
+      else l2 = (self = l2).next
     }
-    else node = node.next
+    else if(l1) l1 = (self = l1).next
+    else l2 = (self = l2) ? l2.next : null
+    if(!head) head = node = self
+    else node = node.next = self
   }
-  return l1 ? l1 : l2
+  return head
 };
 
 console.log(mergeTwoLists(l1, l2));
 
-})(false); // no!!!
+})(false);
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1924,8 +1927,8 @@ if(!go) return;
  * @return {string}
  */
 var addBinary = function(a, b) {
-  var len = Math.max((a = a.split('').reverse()).length, (b = b.split('').reverse()).length), i = 0, sum = 0, r = []
-  while(!!a[i] || !!b[i] || sum){
+  var a = a.split('').reverse(), b = b.split('').reverse(), i = 0, sum = 0, r = []
+  while(a[i] || b[i] || sum){
     sum += ~~a[i] + ~~b[i++]
     r.push(sum % 2)
     sum = ~~(sum/2)
@@ -1935,8 +1938,30 @@ var addBinary = function(a, b) {
 
 console.log(addBinary('1111', '101'));
 
-})(true);
+})(false);
 
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 62
+// Implement strStr()
+// https://leetcode.com/problems/implement-strstr/
+
+/**
+ * @param {string} haystack
+ * @param {string} needle
+ * @return {number}
+ */
+var strStr = function(haystack, needle) {
+
+
+};
+
+})(false);
 
 
 
