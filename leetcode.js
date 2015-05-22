@@ -1543,7 +1543,7 @@ if(!go) return;
  * @param {number[]} nums
  * @return {number}
  */
-var removeDuplicates = function(nums) {
+var removeDuplicates = function(nums) { // 可以尝试优化，通过lastIndexOf去获取最后项，然后删除多个
   for(var i = 1; i < nums.length; i++){ if(nums[i] === nums[i-1]) nums.splice(i--, 1) }
   return nums.length
 };
@@ -1959,9 +1959,43 @@ var strStr = function(haystack, needle) {
 
 };
 
+})(false); // no!!!
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 63
+// Linked List Cycle 
+// https://leetcode.com/problems/linked-list-cycle/
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+
+/**
+ * @param {ListNode} head
+ * @return {boolean}
+ */
+var hasCycle = function(head) {
+  if(!head) return false
+  var slow = head, fast = head.next
+  while(true){
+    if(!fast || !(fast = fast.next)) return false
+    if(fast.val === slow.val) return true
+    if(!(fast = fast.next)) return false
+    if(fast.val === slow.val || fast.val === (slow = slow.next).val) return true
+  }
+};
+
 })(false);
-
-
 
 
 
