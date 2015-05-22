@@ -1544,15 +1544,13 @@ if(!go) return;
  * @return {number}
  */
 var removeDuplicates = function(nums) {
-  var n = 0
-  return nums.filter(function(i, j){
-    return j === 0 || i > nums[j - 1]
-  }).length
+  for(var i = 1; i < nums.length; i++){ if(nums[i] === nums[i-1]) nums.splice(i--, 1) }
+  return nums.length
 };
 
 console.log(removeDuplicates([1,1,2]));
 
-})(false); // no!!!
+})(false);
 
 
 
