@@ -1945,8 +1945,10 @@ if(!go) return;
  * @return {number}
  */
 var strStr = function(haystack, needle) {
-
-
+  for(var i=0 ,hlen = haystack.length, nlen = needle.length; i<hlen-nlen+1; i++){
+    if((substr = haystack.substr(i, nlen)) === needle) return i
+  }
+  return -1
 };
 
 })(false); // no!!!
