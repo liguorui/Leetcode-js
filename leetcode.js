@@ -740,14 +740,9 @@ if(!go) return;
  * @return {number}
  */
 var lengthOfLongestSubstring = function(s) {
-  var str = s[0], n = s ? 1 : 0
-  for(var i=1; i<s.length; i++){
-    var ind = str.indexOf(s[i])
-    if(ind !== -1) str = str.substr(ind + 1) + s[i]
-    else{
-      str += s[i]
-      n = Math.max(n, str.length)
-    }
+  for(var str = s[0], n = s ? 1 : 0, i=1; i<s.length; i++){
+    if((ind = str.indexOf(s[i])) !== -1) str = str.substr(ind + 1) + s[i]
+    else n = Math.max(n, (str += s[i]).length)
   }
   return n
 };
@@ -774,24 +769,19 @@ if(!go) return;
  * @return {number}
  */
 var findMedianSortedArrays = function(nums1, nums2) {
-  var total = nums1.length + nums2.length
-  if(total % 2) return findKth(nums1, nums2, ~~(total / 2) + 1)
-  else return (findKth(nums1, nums2, ~~(total / 2)) + findKth(nums1, nums2, ~~(total / 2) + 1)) / 2
-  function findKth(arr1, arr2, k){
-    var len1 = arr1.length, len2 = arr2.length
-    if(len1 > len2) return findKth(arr2, arr1, k)
-    if(len1 == 0) return arr2[k - 1]
-    if(k == 1) return Math.min(arr1[0], arr2[0])
-    var pa = Math.min(~~(k / 2), len1), pb = k - pa
-    if(arr1[pa - 1] < arr2[pb - 1]) return findKth(arr1 + pa, arr2, k - pa)
-    else if(arr1[pa - 1] > arr2[pb - 1]) return findKth(arr1, arr2 + pb, k - pb)
-    else return arr1[pa - 1]
+  var med1 = 0, med2 = 0, i = 0, j = 0, len1 = nums1.length, len2 = nums2.length, n = len1 + len2
+  while(i+j <= ~~(n/2)){
+    med2 = med1
+    med1 = i<len1 && j<len2 ? (nums1[i]<nums2[j] ? nums1[i++] : nums2[j++]) : i < len1 ? nums1[i++] : nums2[j++]
   }
+  return n % 2 ? med1 : (med1 + med2) / 2
 };
 
-console.log(findMedianSortedArrays([-5,-2,9,18], [-2,5,12]));
+console.log(findMedianSortedArrays([-5,-2,9,18], [-20,-9, -2, 12]));
 
-})(false); // no !!!!
+
+
+})(true); // no !!!!
 
 
 
@@ -1996,6 +1986,34 @@ var hasCycle = function(head) {
 };
 
 })(false);
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 64
+// Linked List Cycle II
+// https://leetcode.com/problems/linked-list-cycle-ii/
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var detectCycle = function(head) {
+
+};
+
+})(false); // no!!!
 
 
 
