@@ -779,9 +779,7 @@ var findMedianSortedArrays = function(nums1, nums2) {
 
 console.log(findMedianSortedArrays([-5,-2,9,18], [-20,-9, -2, 12]));
 
-
-
-})(true); // no !!!!
+})(false);
 
 
 
@@ -1951,7 +1949,7 @@ var strStr = function(haystack, needle) {
   return -1
 };
 
-})(false); // no!!!
+})(false);
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2017,6 +2015,38 @@ var detectCycle = function(head) {
 
 })(false); // no!!!
 
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 65
+// Evaluate Reverse Polish Notation
+// https://leetcode.com/problems/evaluate-reverse-polish-notation/
+
+/**
+ * @param {string[]} tokens
+ * @return {number}
+ */
+var evalRPN = function(tokens) {
+  var i = 0, str = '+-*/', ind
+  while(tokens.length > 1){
+    if((ind = str.indexOf(tokens[i])) !== -1){
+      tokens[i-2] = ind === 0 ? +tokens[i-2] + +tokens[i-1] : ind === 1 ? tokens[i-2] - tokens[i-1] : ind === 2 ? tokens[i-2] * tokens[i-1] : ~~(tokens[i-2] / tokens[i-1])
+      tokens.splice((i=i-1), 2)
+    }else i++
+  }
+  return ~~tokens[0]
+};
+
+console.log(evalRPN(["2", "1", "+", "3", "*"]));
+
+  // ["2", "1", "+", "3", "*"] -> ((2 + 1) * 3) -> 9
+  // ["4", "13", "5", "/", "+"] -> (4 + (13 / 5)) -> 6
+
+})(false);
 
 
 
