@@ -44,10 +44,10 @@ if(!go) return;
  * @return {boolean}
  */
 var isHappy = function(n) {
-	var arr = [n]
+  var arr = [n]
     while(arr.indexOf(n)===arr.length-1){ 
-    	n = (''+n).split('').reduce(function(a,b){return a+b*b},0)|0;
-    	arr.push(n);
+      n = (''+n).split('').reduce(function(a,b){return a+b*b},0)|0;
+      arr.push(n);
     }
     return n===1
 }
@@ -72,7 +72,7 @@ if(!go) return;
  * @return {number}
  */
 var hammingWeight = function(n) {
-    return n.toString(2).split('').filter(function(i){ return i!=='0' }).length
+  return n.toString(2).split('').filter(function(i){ return i!=='0' }).length
 }
 
 console.log(hammingWeight(11));
@@ -123,6 +123,7 @@ if(!go) return;
 var rotate = function(nums, k) {
 	for(var i=0, arr = nums.slice(0), l=arr.length, k = k%l;i<l;i++){ nums[i] = arr[i-k<0?l+i-k:i-k] }
 }
+
 var a = [1,2]
 rotate(a,3)
 console.log(a);
@@ -359,7 +360,7 @@ MinStack.prototype.getMin = function() {
 	return this.stack.sort()[0]
 }
 
-})(false);
+})(false); // no!!!
 
 
 
@@ -1936,7 +1937,7 @@ if(!go) return;
 // 62
 // Implement strStr()
 // https://leetcode.com/problems/implement-strstr/
-
+// 遍历字符串haystack，然后截取与needle相等长度的字符串，比较两字符串是否相等。如果相等则返回索引
 /**
  * @param {string} haystack
  * @param {string} needle
@@ -1944,7 +1945,7 @@ if(!go) return;
  */
 var strStr = function(haystack, needle) {
   for(var i=0 ,hlen = haystack.length, nlen = needle.length; i<hlen-nlen+1; i++){
-    if((substr = haystack.substr(i, nlen)) === needle) return i
+    if(haystack.substr(i, nlen) === needle) return i
   }
   return -1
 };
@@ -2026,6 +2027,7 @@ if(!go) return;
 // Evaluate Reverse Polish Notation
 // https://leetcode.com/problems/evaluate-reverse-polish-notation/
 
+// 遍历一遍，遇到符号，取前两位对其进行运算，然后将结果赋值给三位中的第一位，然后从数组中删除后面两位
 /**
  * @param {string[]} tokens
  * @return {number}
@@ -2049,6 +2051,139 @@ console.log(evalRPN(["2", "1", "+", "3", "*"]));
 })(false);
 
 
+////////////////////////////////////////////////////////////////////////////////
 
 
+;(function(go){
+if(!go) return;
+
+// 66
+// Reverse Words in a String
+// https://leetcode.com/problems/reverse-words-in-a-string/
+
+/**
+ * @param {string} str
+ * @returns {string}
+ */
+var reverseWords = function(str) {
+  return str.replace(/(^\s*)|(\s*$)/g, "").replace(/\s{1,}/g, ' ').split(' ').reverse().join(' ')
+};
+
+console.log(reverseWords('the sky is blue '));
+
+})(false);
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 67
+// Single Number
+// https://leetcode.com/problems/single-number/
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var singleNumber = function(nums) {
+  nums = nums.sort(function(a, b){ return a-b })
+  for(var i=0; i<nums.length; i++){
+    if(nums[i]!==nums[i+1]) return nums[i]
+    else i++
+  }
+};
+
+})(false);
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 68
+// Single Number II 
+// https://leetcode.com/problems/single-number-ii/
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var singleNumber = function(nums) {
+  nums = nums.sort(function(a, b){ return a-b })
+  for(var i=0; i<nums.length; i++){
+    if(nums[i]!==nums[i+1]) return nums[i]
+    else i++
+  }
+};
+
+})(false);
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 69
+// Sum Root to Leaf Numbers 
+// https://leetcode.com/problems/sum-root-to-leaf-numbers/
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var sumNumbers = function(root) {
+  var arr = []
+  function findValue(node, val){
+    if(!node.left && !node.right) arr.push(val)
+    if(node.left) findValue(node.left, val*10+node.left.val)
+    if(node.right) findValue(node.right, val*10+node.right.val)
+  }
+  if(root) findValue(root, root.val)
+  return arr.reduce(function(a,b){return a+b}, 0)
+};
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 70
+// Largest Number
+// https://leetcode.com/problems/largest-number/
+
+/**
+ * @param {number[]} num
+ * @return {string}
+ */
+var largestNumber = function(num) {
+  return num.sort(function(a,b){ return check(a, b) ? 1 : -1 }).join('').replace(/^0{1,}/, '0')
+  function check(a, b){
+    if(String(a).length === String(b).length) return a < b
+    var len = Math.min(String(a).length, String(b).length), max = Math.max(a,b)
+    if(String(a).substr(0, len) === String(b).substr(0, len)){
+      if(String(max).substr(0, 1) < String(max).substr(len, 1)) return b==max
+      else return a==max
+    }else return String(a).substr(0, len) < String(b).substr(0, len)
+  }
+}
+
+console.log(largestNumber([97,91,90,63,90,92,89,76,76,67,55]));
+
+
+})(false); // no!!!
 
