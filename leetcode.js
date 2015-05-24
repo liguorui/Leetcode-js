@@ -2187,3 +2187,31 @@ console.log(largestNumber([97,91,90,63,90,92,89,76,76,67,55]));
 
 })(false); // no!!!
 
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 71
+// Best Time to Buy and Sell Stock
+// https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function(prices) {
+  if(prices.length <= 1) return 0
+  var low = prices[0], maxp = 0
+  for(var i = 1; i < prices.length; i++){
+    var profit = prices[i] - low
+    if(maxp < profit) maxp = profit
+    if(low > prices[i]) low = prices[i]
+  }
+  return maxp
+};
+
+
+})(false);
