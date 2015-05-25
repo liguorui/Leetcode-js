@@ -886,16 +886,19 @@ if(!go) return;
  * @return {number}
  */
 var maxArea = function(height) {
-  return height.reduce(function(max, i, j, k){
-    for(var x=j+1;x<k.length; x++) max = Math.max(max, Math.abs(i-k[x])*(j+x)/2)
-    return max
-  }, 0)
+  var len = height.length, left = 0, right = len - 1, max = 0
+  while(left < right){
+    max = Math.max(max, Math.min(height[left], height[right])*(right - left))
+    if(height[left] < height[right]) left++
+    else right--
+  }
+  return max
 };
 
-console.log(maxArea([2,5,7,3,9]));
+console.log(maxArea([2,5,7,3,2]));
 
 
-})(false); // no!!!
+})(false);
 
 
 
@@ -2377,6 +2380,46 @@ var isMatch = function(s, p) {
 
 
 })(false);
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 76
+// 3Sum
+// https://leetcode.com/problems/3sum/
+
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var threeSum = function(nums) {
+  var r = [], len = nums.length
+  if(len < 3) return r
+  nums = nums.sort(function(a,b){return a-b})
+  for(var i=0; i<len-2; i++){
+    for(var j = i + 1, k = len - 1;j<k;){
+      if(nums[i] + nums[j] + nums[k] < 0) ++j
+      else if(nums[i] + nums[j] + nums[k] > 0) --k
+      else{
+        r.push([nums[i], nums[j++], nums[k--]])
+        while(j<k && nums[j] === nums[j-1]) ++j
+        while(j<k && nums[k] === nums[k+1]) --k
+      }
+    }
+    while(i<len-2 && nums[i] === nums[i+1]) ++i
+  }
+  return r
+};
+
+console.log(threeSum([-4,-2,-2,-2,0,1,2,2,2,3,3,4,4,6,6]));
+
+})(false);
+
 
 
 
