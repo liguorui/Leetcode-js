@@ -2206,12 +2206,85 @@ var maxProfit = function(prices) {
   if(prices.length <= 1) return 0
   var low = prices[0], maxp = 0
   for(var i = 1; i < prices.length; i++){
-    var profit = prices[i] - low
-    if(maxp < profit) maxp = profit
-    if(low > prices[i]) low = prices[i]
+    maxp = Math.max(maxp, prices[i] - low)
+    low = Math.min(low, prices[i])
   }
   return maxp
 };
 
 
 })(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 72
+// Word Ladder
+// https://leetcode.com/problems/word-ladder/
+
+/**
+ * @param {string} beginWord
+ * @param {string} endWord
+ * @param {set<string>} wordDict
+ * @return {number}
+ */
+var ladderLength = function(beginWord, endWord, wordDict) {
+  var len = wordDict.length, min = len + 2, isFind = false
+  if(isL(beginWord, endWord)) return 2
+  function find(beg, arr){
+    var i=0, l = arr.length
+    if(len-l+2<min && isL(beg, endWord) && (isFind = true)) min = len-l+2
+    for(; i<l; i++){
+      if(isL(beg, arr[i])){
+        var newArr = arr.concat(), val = arr[i]
+        newArr.splice(i, 1)
+        find(val, newArr)
+      }
+    }
+  }
+  function isL(a, b){return a.split('').filter(function(i, j){return i !== b[j]}).length === 1}
+  find(beginWord, wordDict)
+  return isFind ? min : 0
+};
+
+// hit - hot - dot - dog - 
+console.log(ladderLength("a", "c", ["a","b","c"]));
+
+})(false); // no!!!
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 73
+// Contains Duplicate
+// https://leetcode.com/problems/contains-duplicate/
+
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var containsDuplicate = function(nums) {
+  return !nums.sort(function(a, b){return a-b}).every(function(i, j){
+    return j === nums.length-1 ? true : i !== nums[j+1]
+  })
+};
+
+console.log(containsDuplicate([1]));
+
+})(false);
+
+
+
+
+
+
+
+
