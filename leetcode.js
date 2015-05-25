@@ -2282,9 +2282,101 @@ console.log(containsDuplicate([1]));
 })(false);
 
 
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 74
+// Maximum Product Subarray 
+// https://leetcode.com/problems/maximum-product-subarray/
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxProduct = function(nums) {
+  if(nums.length === 0 ) return 0
+  if(nums.length === 1 ) return nums[0]
+  var max = nums[0], min = nums[0], r = nums[0], temp
+  for(var i = 1; i<nums.length; i++){
+    min = Math.min(nums[i], Math.min((temp = min * nums[i]), max*nums[i]))
+    r = Math.max(r, (max = Math.max(nums[i], Math.max(temp, max*nums[i]))))
+  }
+  return r
+};
+
+console.log(maxProduct([2,3,-2,4]));
+
+})(false);
 
 
 
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 75
+// Find Minimum in Rotated Sorted Array 
+// https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var findMin = function(nums) {
+
+};
+
+})(false); // no!!!
+
+
+
+ 
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 76
+// Regular Expression Matching
+// https://leetcode.com/problems/regular-expression-matching/
+
+/**
+ * @param {string} s
+ * @param {string} p
+ * @return {boolean}
+ */
+var isMatch = function(s, p) {
+  if(p.length === 0) return s.length === 0
+  if(p.length === 1 || p[1] !== '*'){
+    if(s.length < 1 || (p[0] !== '.' && s[0] !== p[0])) return false
+    return isMatch(s.substring(1), p.substring(1))
+  }else{
+    var i = -1
+    while(i < s.length && (i < 0 || p[0] === '.' || p[0] === s[i])){
+      if(isMatch(s.substring(++i), p.substring(2))) return true
+    }
+    return false
+  }
+};
+
+// isMatch("aa","a") → false
+// isMatch("aa","aa") → true
+// isMatch("aaa","aa") → false
+// isMatch("aa", "a*") → true
+// isMatch("aa", ".*") → true
+// isMatch("ab", ".*") → true
+// isMatch("aab", "c*a*b") → true
+
+
+})(false);
 
 
 
