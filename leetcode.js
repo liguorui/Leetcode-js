@@ -2523,8 +2523,60 @@ var fourSum = function(nums, target) {
 
 console.log(fourSum([1,0,-1,0,-2,2], 0));
 
-})(true);
+})(false);
 
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 81
+// Swap Nodes in Pairs
+// https://leetcode.com/problems/swap-nodes-in-pairs/
+
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var swapPairs = function(head) {
+  var node = head, next
+  if(!head) return null
+  if(!head.next) return head
+  else head = next = head.next
+  while(node && next){
+    var tmp = next.next
+    next.next = node
+    node.next = tmp && tmp.next ? tmp.next : tmp
+    node = tmp
+    next = tmp && tmp.next ? tmp.next : null
+  }
+  return head
+};
+
+
+function ListNode(val) {
+  this.val = val;
+  this.next = null;
+}
+
+var l1 = new ListNode(1)
+l1.next = new ListNode(2)
+l1.next.next = new ListNode(3)
+l1.next.next.next = new ListNode(4)
+
+console.log(swapPairs(l1));
+
+})(false);
 
 
 
