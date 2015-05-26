@@ -2389,7 +2389,7 @@ var isMatch = function(s, p) {
 ;(function(go){
 if(!go) return;
 
-// 76
+// 77
 // 3Sum
 // https://leetcode.com/problems/3sum/
 
@@ -2420,6 +2420,68 @@ console.log(threeSum([-4,-2,-2,-2,0,1,2,2,2,3,3,4,4,6,6]));
 
 })(false);
 
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 78
+// Letter Combinations of a Phone Number
+// https://leetcode.com/problems/letter-combinations-of-a-phone-number/
+
+/**
+ * @param {string} digits
+ * @return {string[]}
+ */
+var letterCombinations = function(digits) {
+  if (!digits.length) return []
+  var arr = [[],[],["a","b","c"],["d", "e", "f"],["g","h","i"],["j","k","l"],["m","n","o"],["p","q","r","s"],["t","u","v"],["w","x","y","z"]]
+  function str(s, dig){
+    if(!dig.length) return s
+    var newStr = [], thisDig = dig[0]
+    s.forEach(function(i){ arr[thisDig].forEach(function(j){ newStr.push(i+j) })})
+    return str(newStr, dig.slice(1))
+  }
+  return str([''], digits)
+};
+
+
+})(false);
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 79
+// 3Sum Closest
+// https://leetcode.com/problems/3sum-closest/
+
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var threeSumClosest = function(nums, target) {
+  var min = null, len = nums.length
+  if(len < 3) return 0
+  nums = nums.sort(function(a,b){return a-b})
+  for(var i=0; i<len-2; i++){
+    for(var j = i + 1, k = len - 1;j<k;){
+      var nums = nums[i] + nums[j] + nums[k]
+      min = min === null ? nums : Math.abs(target-sum) < Math.abs(target-min) ? sum : min
+      if(nums < target) ++j
+      else if(nums > target) --k
+      else return target
+    }
+  }
+  return min
+};
+
+
+})(false);
 
 
 
