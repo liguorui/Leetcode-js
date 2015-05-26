@@ -2484,4 +2484,48 @@ var threeSumClosest = function(nums, target) {
 })(false);
 
 
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 80
+// 4Sum
+// https://leetcode.com/problems/4sum/
+
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[][]}
+ */
+var fourSum = function(nums, target) {
+  var r = [], len = nums.length
+  if(len < 4) return r
+  nums = nums.sort(function(a,b){return a-b})
+  for(var x=0; x<len-3; x++){
+    for(var i=x+1; i<len-2; i++){
+      for(var j = i + 1, k = len - 1;j<k;){
+        if(nums[x] + nums[i] + nums[j] + nums[k] < target) ++j
+        else if(nums[x] + nums[i] + nums[j] + nums[k] > target) --k
+        else{
+          r.push([nums[x], nums[i], nums[j++], nums[k--]])
+          while(j<k && nums[j] === nums[j-1]) ++j
+          while(j<k && nums[k] === nums[k+1]) --k
+        }
+      }
+      while(i<len-2 && nums[i] === nums[i+1]) ++i
+    }
+    while(x<len-3 && nums[x] === nums[x+1]) ++x
+  }
+  return r
+};
+
+console.log(fourSum([1,0,-1,0,-2,2], 0));
+
+})(true);
+
+
+
+
 
