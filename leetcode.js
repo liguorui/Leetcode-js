@@ -2563,7 +2563,6 @@ var swapPairs = function(head) {
   return head
 };
 
-
 function ListNode(val) {
   this.val = val;
   this.next = null;
@@ -2577,6 +2576,169 @@ l1.next.next.next = new ListNode(4)
 console.log(swapPairs(l1));
 
 })(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 82
+// Longest Valid Parentheses
+// https://leetcode.com/problems/longest-valid-parentheses/
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var longestValidParentheses = function(s) {
+
+};
+
+
+console.log(longestValidParentheses('(((())(()'));
+
+})(false); // no!!!
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 83
+// Combination Sum
+// https://leetcode.com/problems/combination-sum/
+
+/**
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
+ */
+var combinationSum = function(candidates, target) {
+  var r = []
+  find(candidates.sort(function(a,b){return a-b}), [], target, 0)
+  function find(candi, arr, val, n){
+    if(candi[n] <= val){
+      var newArr = arr.concat()
+      newArr.push(candi[n])
+      if(candi[n] < val){
+        find(candi.slice(n+1), arr, val, n)
+        find(candi, newArr, val-candi[n], n)
+      }else r.push(newArr)
+    }
+  }
+  return r
+};
+
+console.log(combinationSum([10,1,2,7,6,1,5], 8));
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 84
+// Combination Sum II
+// https://leetcode.com/problems/combination-sum-ii/
+
+/**
+ * @param {number[]} candidates
+ * @param {number} target
+ * @return {number[][]}
+ */
+var combinationSum = function(candidates, target) {
+  var r = []
+  find(candidates.sort(function(a,b){return a-b}), [], target, 0)
+  function find(candi, arr, val, n){
+    if(candi[n] <= val){
+      var newArr = arr.concat()
+      newArr.push(candi[n])
+      if(candi[n] < val){
+        find(candi.slice(candi.lastIndexOf(candi[n])+1), arr, val, n)
+        find(candi.slice(n+1), newArr, val-candi[n], n)
+      }else r.push(newArr)
+    }
+  }
+  return r
+};
+
+console.log(combinationSum([10,1,2,7,6,1,5], 8));
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 85
+// Combination Sum III
+// https://leetcode.com/problems/combination-sum-iii/
+
+/**
+ * @param {number} k
+ * @param {number} n
+ * @return {number[][]}
+ */
+var combinationSum3 = function(k, n) {
+  var r = [], candidates = [1,2,3,4,5,6,7,8,9]
+  find(candidates, [], n, 0)
+  function find(candi, arr, val, n){
+    if(candi[n] <= val && arr.length <= k){
+      var newArr = arr.concat()
+      newArr.push(candi[n])
+      if(candi[n] < val){
+        find(candi.slice(n+1), arr, val, n)
+        find(candi.slice(n+1), newArr, val-candi[n], n)
+      }else if(newArr.length === k) r.push(newArr)
+    }
+  }
+  return r
+};
+
+
+console.log(combinationSum3(3,7));
+
+// console.log(combinationSum([10,1,2,7,6,1,5], 8));
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 86
+// Kth Largest Element in an Array
+// https://leetcode.com/problems/kth-largest-element-in-an-array/
+
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var findKthLargest = function(nums, k) {
+  return nums.sort(function(a,b){return b-a})[k-1]
+};
+
+
+})(false);
+
+
+
+
 
 
 
