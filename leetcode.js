@@ -2739,7 +2739,57 @@ var findKthLargest = function(nums, k) {
 
 
 
+////////////////////////////////////////////////////////////////////////////////
 
+
+;(function(go){
+if(!go) return;
+
+// 87
+// Jump Game
+// https://leetcode.com/problems/jump-game/
+
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var canJump = function(nums) {
+  for(var i = 1, jump = nums[0]; i < nums.length; i++){
+    if(jump<=0) return false
+    else jump = Math.max(--jump, nums[i])
+  }
+  return true
+};
+
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 87
+// Jump Game
+// https://leetcode.com/problems/jump-game/
+
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var canJump = function(nums) {
+  for(var i = 0, r = 0, last = 0, curr = 0; i < nums.length; i++){
+    if(i>curr) return -1
+    if(i>last && ++r) last = curr
+    curr = Math.max(curr, i+nums[i])
+  }
+  return r
+};
+
+
+})(false);
 
 
 
