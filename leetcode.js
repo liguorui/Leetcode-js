@@ -121,7 +121,9 @@ if(!go) return;
  * @return {void} Do not return anything, modify nums in-place instead.
  */
 var rotate = function(nums, k) {
-	for(var i=0, arr = nums.slice(0), l=arr.length, k = k%l;i<l;i++){ nums[i] = arr[i-k<0?l+i-k:i-k] }
+	for(var i=0, arr = nums.slice(0), l=arr.length, k = k%l;i<l;i++){ 
+    nums[i] = arr[i-k<0 ? l+i-k : i-k] 
+  }
 }
 
 var a = [1,2]
@@ -147,7 +149,9 @@ if(!go) return;
  * @return {number}
  */
 var titleToNumber = function(s) {
-    return s.split('').reverse().reduce(function(a,b,j){ return a+(b.charCodeAt(0)-64)*Math.pow(26,j) },0)
+  return s.split('').reverse().reduce(function(a,b,j){ 
+    return a+(b.charCodeAt(0)-64)*Math.pow(26,j) 
+  },0)
 }
 
 console.log(titleToNumber('AZBCGH'));
@@ -172,9 +176,9 @@ if(!go) return;
  * @return {number}
  */
 var majorityElement = function(nums) {
-    for(var nums = nums.sort(function(a,b){ return a-b }),ind ,i = 0, l=nums.length;i<l;i++){
-    	if(nums[i]!==ind&&(ind=nums[i],true)&&(nums.lastIndexOf(nums[i])-i+1)>l/2) return nums[i]
-    }
+  for(var nums = nums.sort(function(a,b){ return a-b }),ind ,i = 0, l=nums.length;i<l;i++){
+  	if(nums[i]!==ind&&(ind=nums[i],true)&&(nums.lastIndexOf(nums[i])-i+1)>l/2) return nums[i]
+  }
 }
 
 console.log(majorityElement([0,0,0,0,5,6,2,3,0]));
@@ -303,7 +307,7 @@ if(!go) return;
  */
 var reverse = function(x) {
 	var s = (x<0?'-':'')+(Math.abs(x)+'').split('').reverse().join('')
-	return s==~~s?~~s:0
+	return s==~~s ? ~~s : 0
 }
 // Example1: x = 123, return 321
 // Example2: x = -123, return -321
@@ -531,7 +535,7 @@ var longestCommonPrefix = function(strs) {
     var s = []
     a.split('').every(function(i, j){
       if(i==b[j]){ s.push(i); return true }
-      else return false
+      return false
     })
     return s.join('')
   })
@@ -584,14 +588,14 @@ if(!go) return;
 var plusOne = function(digits) {
     digits = digits.reverse()
     for(var i=0, x=1; i<digits.length; i++){
-		if(digits[i]+x>9){
-			digits[i] = 0
-			x = 1
-		}else{
-			digits[i] += x
-			x = 0
-			i = digits.length
-		}
+  		if(digits[i]+x>9){
+  			digits[i] = 0
+  			x = 1
+  		}else{
+  			digits[i] += x
+  			x = 0
+  			i = digits.length
+  		}
     }
     if(x==1) digits.push(1)
     return digits.reverse()
@@ -654,13 +658,10 @@ if(!go) return;
  * @return {number[]}
  */
 var twoSum = function(nums, target) {
-  var len = nums.length, r =[], i = 0, j = 1, sortA = nums.concat().sort(function(a, b){return a - b})
+  var len = nums.length, r =[], i = 0, j = 1, sortA = nums.concat().sort(function(a, b){return a - b}), x, y
   for(;i + j < len;){
-    var x = sortA[i], y = sortA[len - j]
-    if(x + y == target){
-      r = [nums.indexOf(x)+1, nums.lastIndexOf(y) + 1]
-      return r[0] < r[1] ? r : [r[1], r[0]]
-    }
+    if((x = sortA[i]) + (y = sortA[len - j]) == target)
+      return (r = [nums.indexOf(x)+1, nums.lastIndexOf(y) + 1])[0] < r[1] ? r : [r[1], r[0]]
     else if(x + y < target) i++
     else j++
   }
@@ -2866,5 +2867,132 @@ var permute = function(nums) {
 console.log(permute([1,1,3]));
 
 })(false);
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 91
+// Next Permutation
+// https://leetcode.com/problems/next-permutation/
+
+/**
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+var nextPermutation = function(nums) {
+  var arr = nums.concat().reverse(), len = nums.length, isFind = false
+  for(var i = 0; i < len-1; i++){
+    for(var j = i+1; j < len-1; j++){
+      if(arr[i]>arr[j]){
+        var tmp = arr[j]
+        arr[j] = arr[i]
+        arr[i] = tmp
+        isFind = true
+        break
+      }
+    }
+  }
+  if(isFind) arr.reverse()
+  for(var i=0;i<len;i++){nums[i] = arr[i]}
+};
+
+var arr1 = [1,3,2]
+nextPermutation(arr1)
+console.log(arr1);
+
+})(false); // no!!!
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 92
+// Search Insert Position
+// https://leetcode.com/problems/search-insert-position/
+
+// 二分法
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+var searchInsert = function(nums, target) {
+  var len = nums.length, left = 0, right = len-1, mid = 0
+  while(left <= right){
+    mid = left + ~~((right-left)/2)
+    if(target === nums[mid]) return mid
+    else if(target < nums[mid]) right = mid - 1
+    else left = mid + 1
+  }
+  return left
+};
+
+})(false);
+    
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 93
+// Bitwise AND of Numbers Range
+// https://leetcode.com/problems/bitwise-and-of-numbers-range/
+
+/**
+ * @param {number} m
+ * @param {number} n
+ * @return {number}
+ */
+var rangeBitwiseAnd = function(m, n) {
+  while(n > m) n = n & (n-1)
+  return n
+};
+
+})(false);
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 94
+// Maximum Subarray
+// https://leetcode.com/problems/maximum-subarray/
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var maxSubArray = function(nums) {
+  for(var i = 0, r = -Number.MAX_VALUE, sum = 0; i<nums.length; i++){
+    r = Math.max((sum = Math.max(sum+nums[i], nums[i])), r)
+  }
+  return r
+};
+
+// var maxSubArray = function(nums) {
+//   var max = 0, val = 0, isFind = false
+//   nums.forEach(function(i){
+//     if(i>0 && (isFind=true)) max = Math.max(max,(val+=i))
+//     else val = val+i<0 ? 0 : val+i
+//   })
+//   return isFind ? max : nums.sort(function(a,b){return b-a})[0]
+// };
+
+// Number.MIN_VALUE
+
+console.log(maxSubArray([-2,-1]));
+
+})(false);
+
+
 
 
