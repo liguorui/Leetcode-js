@@ -2756,7 +2756,7 @@ if(!go) return;
 var canJump = function(nums) {
   for(var i = 1, jump = nums[0]; i < nums.length; i++){
     if(jump<=0) return false
-    else jump = Math.max(--jump, nums[i])
+    jump = Math.max(--jump, nums[i])
   }
   return true
 };
@@ -2771,9 +2771,9 @@ var canJump = function(nums) {
 ;(function(go){
 if(!go) return;
 
-// 87
-// Jump Game
-// https://leetcode.com/problems/jump-game/
+// 88
+// Jump Game II
+// https://leetcode.com/problems/jump-game-ii/
 
 /**
  * @param {number[]} nums
@@ -2791,5 +2791,80 @@ var canJump = function(nums) {
 
 })(false);
 
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 89
+// Permutations
+// https://leetcode.com/problems/permutations/
+
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var permute = function(nums) {
+  var r = [], len = nums.length
+  find([], nums)
+  function find(arr1, arr2){
+    arr2.forEach(function(i, j, k){
+      var newArr1 = arr1.concat()
+      newArr1.push(i)
+      if(newArr1.length === len) r.push(newArr1)
+      else{
+        var newArr2 = k.concat()
+        newArr2.splice(j, 1)
+        find(newArr1, newArr2)
+      }
+    })
+  }
+  return r
+};
+
+console.log(permute([1,1,3]));
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 90
+// Permutations II 
+// https://leetcode.com/problems/permutations-ii/
+
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var permute = function(nums) {
+  var r = [], len = nums.length
+  find([], nums.sort(function(a,b){return a-b}))
+  function find(arr1, arr2){
+    arr2.forEach(function(i, j, k){
+      if(i !== k[j+1]){
+        var newArr1 = arr1.concat()
+        newArr1.push(i)
+        if(newArr1.length === len) r.push(newArr1)
+        else{
+          var newArr2 = k.concat()
+          newArr2.splice(j, 1)
+          find(newArr1, newArr2)
+        }
+      }
+    })
+  }
+  return r
+};
+
+console.log(permute([1,1,3]));
+
+})(false);
 
 
