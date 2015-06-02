@@ -332,7 +332,9 @@ if(!go) return;
  * @constructor
  */
 var MinStack = function() {
-	this.stack = []
+  this.val = null
+  this.min = null
+  this.next = null
 };
 
 /**
@@ -340,28 +342,31 @@ var MinStack = function() {
  * @returns {void}
  */
 MinStack.prototype.push = function(x) {
-	this.stack.push(x)
+  var temp = new MinStack(x)
+  temp.next = this
+  this.top = temp
+  this.min = this.next ? Math.min(this.next.min, x) : x
 }
 
 /**
  * @returns {void}
  */
 MinStack.prototype.pop = function() {
-	this.stack.shift()
+  this.next = this.next.next
 }
 
 /**
  * @returns {number}
  */
 MinStack.prototype.top = function() {
-	return this.stack[0]
+  return this.val || 0
 }
 
 /**
  * @returns {number}
  */
 MinStack.prototype.getMin = function() {
-	return this.stack.sort()[0]
+  return this.min || 0
 }
 
 })(false); // no!!!
@@ -391,7 +396,7 @@ if(!go) return;
  * @return {ListNode}
  */
 var removeNthFromEnd = function(head, n) {
-    
+  // var newHead = new List
 };
 
 })(false); // no!!!!!!
@@ -782,6 +787,8 @@ var findMedianSortedArrays = function(nums1, nums2) {
 console.log(findMedianSortedArrays([-5,-2,9,18], [-20,-9, -2, 12]));
 
 })(false);
+
+
 
 
 
@@ -2275,9 +2282,9 @@ if(!go) return;
  * @param {number[]} nums
  * @return {boolean}
  */
-var containsDuplicate = function(nums) {
-  return !nums.sort(function(a, b){return a-b}).every(function(i, j){
-    return j === nums.length-1 ? true : i !== nums[j+1]
+var containsDuplicate = function(nums) {  
+  return nums.sort(function(a, b){return a-b}).some(function(i, j){ 
+    return i === nums[j+1] 
   })
 };
 
@@ -2993,6 +3000,285 @@ console.log(maxSubArray([-2,-1]));
 
 })(false);
 
+////////////////////////////////////////////////////////////////////////////////
 
 
+;(function(go){
+if(!go) return;
+
+// 95
+// Insertion Sort List
+// https://leetcode.com/problems/insertion-sort-list/
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var insertionSortList = function(head) {
+  var newHead = new ListNode(-1)
+  while(head){
+    var temp = head.next, cur = newHead
+    while(cur.next && cur.next.val < head.val) cur = cur.next
+    head.next = cur.next
+    cur.next = head
+    head = temp
+  }
+  return newHead.next
+};
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 96
+// Minimum Size Subarray Sum
+// https://leetcode.com/problems/minimum-size-subarray-sum/
+
+/**
+ * @param {number} s
+ * @param {number[]} nums
+ * @return {number}
+ */
+var minSubArrayLen = function(s, nums) {
+  if(!nums || nums.length === 0) return 0
+  var r = Number.MAX_VALUE, sum = 0, i = 0, j = 0
+  while(i<=j && j<nums.length && sum < s){
+    sum += nums[j]
+    while(i<=j && sum>=s){
+      r = Math.min(r, j-i+1)
+      sum -= nums[i++]
+    }
+    j++
+  }
+  return r === Number.MAX_VALUE ? 0 : r
+};
+
+
+// var minSubArrayLen = function(s, nums) {
+//   var len = nums.length, r = len, isFind = false
+//   for(var i=0; i<len; i++){
+//     for(var sum = 0, j=i; j<len; j++){
+//       if(j-i < r && (sum += nums[j]) >= s && (isFind = true)){
+//         console.log(123);
+//         if((r = Math.min(r, j-i+1)) === 1) return 1
+//       }
+//     }
+//     if(i===0 && !isFind) return 0
+//   }
+//   return r
+// };
+
+console.log(minSubArrayLen(120331635, [39396,75535,17610,81826,10343,69422,14335,9801,19955,99295,38101,24312,20341,69218,65487,38409,89920,17480,92688,71016,91144,51111,88996,24041,7190,78854,94001,80392,50540,48497,3153,43509,74239,48742,14946,5772,53828,15647,92326,93162,53714,24957,31602,1926,26875,35836,60646,69048,98012,92164,26077,14024,77649,67997,78341,18214,57985,44171,52842,55525,70084,74614,30378,77896,4212,99784,64496,46262,46399,8492,6978,30754,84811,36393,45151,6340,13544,98081,86997,95444,45237,20037,14037,53490,38646,17000,74471,44593,82428,74864,19016,54838,58668,11032,84860,99259,76070,30163,49073,71500,28207,64386,70747,48359,13511,82968,98839,15888,90781,2133,28037,46092,31757,44124,36338,44268,97854,93749,36361,2179,77441,85528,16717,97573,26685,84894,43169,59012,33270,86629,11359,28595,47766,21965,65394,87355,57990,57962,13864,37360,96847,52645,93474,88997,88822,40161,32062,12006,1952,54158,90362,40220,34257,84673,93803,9722,68847,78587,58552,66210,17038,64681,51612,38151,45862,7565,34865,22118,3179,81710,32238,494,86367,87808,94954,37642,1944,25980,23970,4818,89584,27863,10048,8073,33515,14971,75233,96927,47280,35223,61500,64730,30107,47455,64536,95560,50286,87337,7105,25961,31925,70002,46739,68103,70275,54251,34629,66383,76483,12288,70671,99958,80034,13642,24341,15929,59181,44814,79352,71087,54428,18788,73285,68203,25968,74869,11750,48436,99493,16714,7501,49344,3942,797,19437,66095,33367,88037,16700,22559,34724,7128,83307,46293,57333,94730,28051,55133,52280,16397,61754,41447,51182,54450,4157,62207,30813,90077,49368,36572,87523,89996,43369,14540,6448,51950,28665,87214,33545,85912,18754,70886,16646,71827,68529,99288,3294,42185,52304,71541,25942,22506,8910,73719,83262,12615,63150,96392,46289,79797,56970,22172,54358,11895,80255,51527,59,22591,16126,47403,21702,21654,30731,84466,46744,70066,22379,69028,5242,89976,10067,88510,90661,10597,67939,62942,38747,2934,91174,55875,10476,18975,75385,59127,51002,53840,96733,54994,2310,51944,91857,74269,32636,31301,25461,34167,50288,59316,64029]));
+
+// [2,3,1,2,4,3]
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 97
+// Word Break
+// https://leetcode.com/problems/word-break/
+
+/**
+ * @param {string} s
+ * @param {set<string>} wordDict
+ * @return {boolean}
+ */
+var wordBreak = function(s, wordDict) {
+  for(var i = 0, r = []; i< s.length; i++){
+    for(var j = 0; j <= i; j++){
+      var word = s.slice(j, i + 1)
+      if(wordDict.has(word) && (j == 0 || r[j-1] == true )) r[i] = true
+    }
+  }
+  return r[s.length - 1] || false
+};
+
+// var wordBreak = function(s, wordDict) {
+//   var isFind = false
+//   find(s, wordDict, 0)
+//   function find(str, word, n){
+//     if(word && n<word.length){
+//       var newStr = str.replace(word[n], '')
+//       if(newStr === '') isFind = true
+//       else if(str !== newStr){
+//         var newArr = word.concat()
+//         newArr.splice(n, 1)
+//         find(newStr, newArr, n)
+//       }else find(newStr, word, n+1)
+//     }
+//   }
+//   return isFind
+// };
+
+
+console.log(wordBreak("a", ["a"]));
+
+})(false);
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 98
+// Anagrams
+// https://leetcode.com/problems/anagrams/
+
+/**
+ * @param {string[]} strs
+ * @return {string[]}
+ */
+var anagrams = function(strs) {
+  var r = [], len = strs.length, obj = {}
+  strs.forEach(function(i){
+    if(obj[i.length]) obj[i.length].push(i)
+    else obj[i.length] = [i]
+  })
+  for(var x in obj){
+    obj[x].map(function(i){ return i.split('').sort().join('')})
+    .forEach(function(i, j, k){
+      if(j<k.length && (k.indexOf(i, j+1)!==-1) || (j>0 && k.lastIndexOf(i, j-1)!==-1)) r.push(obj[x][j])
+    })
+  }
+  return r
+};
+
+    // .forEach(function(i, j, k){
+    //   if(j<k.length && (k.indexOf(i, j+1)!==-1) || (j>0 && k.lastIndexOf(i, j-1)!==-1)) r.push(obj[x][j])
+    // })
+
+// var anagrams = function(strs) {
+  // var primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101], r = [], arr = []
+  // arr = strs.map(function(i){
+  //   return i.split('').reduce(function(a,b){
+  //     var c = b.charCodeAt()
+  //     return a*c
+  //   },1) || 0
+  // })
+  // console.log(arr);
+  // arr.forEach(function(i, j, k){
+  //   if(j<k.length && (k.indexOf(i, j+1)!==-1) || (j>0 && k.lastIndexOf(i, j-1)!==-1)) r.push(strs[j])
+  // })
+  // return r
+// };
+
+console.log(anagrams(["ape","pea","tax"]));
+
+})(false); // no!!!
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 99
+// Rotate Image
+// https://leetcode.com/problems/rotate-image/
+
+/**
+ * @param {number[][]} matrix
+ * @return {void} Do not return anything, modify matrix in-place instead.
+ */
+
+var rotate = function(matrix) {
+  var arr = []
+  matrix.forEach(function(a,b){ arr[b] = a.concat() })
+  arr[0].forEach(function(i,j){
+    arr.forEach(function(x,y){
+      matrix[j][y] = arr[arr.length-1-y][j]
+    })
+  })
+};
+
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 100
+// Contains Duplicate II
+// https://leetcode.com/problems/contains-duplicate-ii/
+
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {boolean}
+ */
+var containsNearbyDuplicate = function(nums, k) {
+  var obj = {}
+  for(var i in nums){
+    if(obj[nums[i]] !== undefined && Math.abs(obj[nums[i]] - i) <= k) return true
+    else obj[nums[i]] = i
+  }
+  return false
+};
+
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 101
+// Longest Consecutive Sequence
+// https://leetcode.com/problems/longest-consecutive-sequence/
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var longestConsecutive = function(nums) {
+  nums = nums.sort(function(a,b){return a-b})
+  var max = 1, ind = nums[0], len = 1
+  nums.slice(1).forEach(function(i, j){
+    if(ind === i-1){
+      len++
+      ind++
+    }else if(ind !== i){
+      max = Math.max(max, len)
+      ind = i
+      len = 1
+    }
+  })
+  return Math.max(max, len)
+};
+
+console.log(longestConsecutive([0, -1]));
+
+})(false);
 
