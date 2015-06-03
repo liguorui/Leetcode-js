@@ -3400,12 +3400,201 @@ if(!go) return;
  * @return {number}
  */
 var firstMissingPositive = function(nums) {
-    
+  if(nums.length<1) return 1
+  var pos = 0, len = nums.length
+  while(pos<len){
+    if(nums[pos]>0 && (nums[pos] !== pos+1) && (nums[pos]-1 < len) && nums[pos] !== nums[nums[pos]-1]){
+      var tmp = nums[pos]
+      nums[pos] = nums[nums[pos]-1]
+      nums[tmp-1] = tmp
+    }else pos++
+  }
+  console.log(nums);
+  for(var i=0;i<len;i++) if(i+1 !== nums[i]) return i+1
+  return len+1
 };
+
+console.log(firstMissingPositive([1,1,8,9,3,4,-1,1]));
 
 })(false);
 
 
 
+////////////////////////////////////////////////////////////////////////////////
 
+
+;(function(go){
+if(!go) return;
+
+// 106
+// Pow(x, n)
+// https://leetcode.com/problems/powx-n/
+
+/**
+ * @param {number} x
+ * @param {number} n
+ * @return {number}
+ */
+var myPow = function(x, n) {
+  if(n === 0) return 1
+  else if(n < 0){
+    x = 1 / x
+    n = -1 * n
+  }
+  var r = 1
+  while(n > 0){
+    if(n % 2 === 1) r *= x
+    n = ~~(n/2)
+    x *= x
+  }
+  return r
+};
+
+// var myPow = function(x, n) {
+//   return Math.pow(x, n)
+// };
+
+console.log(myPow(2,6));
+
+
+})(false);
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 107
+// Permutation Sequence
+// https://leetcode.com/problems/permutation-sequence/
+
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {string}
+ */
+var getPermutation = function(n, k) {
+  var arr = [], val = 1, r = '', k = k-1
+  while(arr.length < n){
+    arr.push(arr.length+1)
+    val *= arr.length
+  }
+  for(var i=0;i<n;i++){
+    var x = ~~(k/(val = val/(n-i)))
+    k = k % val
+    r += arr[x]
+    arr.splice(x, 1)
+  }
+  return r
+};
+
+console.log(getPermutation(4,12));
+
+// console.log(permute([1,1,3]));
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 108
+// Text Justification
+// https://leetcode.com/problems/text-justification/
+
+/**
+ * @param {string[]} words
+ * @param {number} maxWidth
+ * @return {string[]}
+ */
+var fullJustify = function(words, maxWidth) {
+  var r = [], index = 0, x
+  while(words.length > index){
+    var s = [], bool = true, l = 0
+    while(bool && words[index]){
+      l += words[index].length+1
+      if(l <= maxWidth+1) s.push(words[index++])
+      else l -= ((bool = false)+words[index].length+2)
+    }
+    if(!words[index]) index++
+    x = words[index] ? s.map(function(i,j,k){
+        return i + (j!==k.length-1 ? Array(~~((maxWidth-l) / (s.length-1))+1).join(' ')+((maxWidth-l) % (s.length-1)-j>0?' ':'') : '')
+      }).join(' ') : s.join(' ')
+    r.push(x + Array(~~(maxWidth-x.length)+1).join(' '))
+  }
+  return r
+};
+
+console.log(fullJustify(["Listen","to","many,","speak","to","a","few."], 6));
+
+})(false);
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 109
+// Sqrt(x)
+// https://leetcode.com/problems/sqrtx/
+
+/**
+ * @param {number} x
+ * @return {number}
+ */
+var mySqrt = function(x) {
+  var g = x;
+  while(g*g-x>0.00001) g = (g+x/g)/2
+  return ~~g
+};
+
+
+})(false);
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 110
+// Set Matrix Zeroes
+// https://leetcode.com/problems/set-matrix-zeroes/
+
+/**
+ * @param {number[][]} matrix
+ * @return {void} Do not return anything, modify matrix in-place instead.
+ */
+var setZeroes = function(matrix) {
+  var x = [], y = []
+  matrix.forEach(function(i,j){
+    i.forEach(function(a,b){
+      if(a === 0){
+        if(x.indexOf(b)===-1) x.push(b)
+        if(y.indexOf(j)===-1) y.push(j)
+      }
+    })
+  })
+  for(var i=0;i<y.length;i++){
+    for(var j=0;j<matrix[0].length;j++) matrix[y[i]][j] = 0
+  }
+  for(var i=0;i<x.length;i++){
+    for(var j=0;j<matrix.length;j++) matrix[j][x[i]] = 0
+  }
+};
+
+console.log(setZeroes([[1,0,1,1],[1,0,1,1],[1,1,1,1]]));
+
+})(false);
 
