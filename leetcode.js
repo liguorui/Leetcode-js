@@ -3282,3 +3282,130 @@ console.log(longestConsecutive([0, -1]));
 
 })(false);
 
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 102
+// Maximal Square
+// https://leetcode.com/problems/maximal-square/
+
+/**
+ * @param {character[][]} matrix
+ * @return {number}
+ */
+var maximalSquare = function(matrix) {
+  var max = 0
+  for(var i = 0;i<matrix.length;i++){
+    if(Object.prototype.toString.call(matrix[i]) === '[object Array]'){
+      for(var j = 0;j<matrix[i].length;j++){
+        if(matrix[i][j]==1) find(i,j,1)
+      }
+    }else{
+      if(matrix[i]==1) return 1
+    }
+  }
+  function find(i,j,num){
+    max = Math.max(num,max)
+    for(var x=i;x<num+i;x++) if(matrix[x] && matrix[x][j+num] != 1) return false
+    for(var y=j;j<num+i+1;j++) if(matrix[i+num] && matrix[i+num][y] != 1) return false
+    find(i,j,num+1)
+  }
+  return max*max
+};
+
+// console.log(maximalSquare([[1, 0, 1, 0, 0],
+// [1, 0, 1, 1, 1],
+// [1, 1, 1, 1, 1],
+// [1, 0, 0, 1, 0]]));
+
+console.log(maximalSquare(["11"]));
+
+})(false); // no!!!
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 103
+// Merge Intervals
+// https://leetcode.com/problems/merge-intervals/
+
+/**
+ * Definition for an interval.
+ * function Interval(start, end) {
+ *     this.start = start;
+ *     this.end = end;
+ * }
+ */
+/**
+ * @param {Interval[]} intervals
+ * @return {Interval[]}
+ */
+var merge = function(intervals) {
+  intervals = intervals.sort(function(a,b){ return a.start - b.start})
+  for(var i=0;i<intervals.length;i++){
+    if(intervals[i+1] && intervals[i].end >= intervals[i+1].start){
+      intervals[i].end = Math.max(intervals[i].end, intervals[i+1].end)
+      intervals.splice((i--)+1, 1)
+    }
+  }
+  return intervals
+};
+
+})(false);
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 104
+// Search for a Range
+// https://leetcode.com/problems/search-for-a-range/
+
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var searchRange = function(nums, target) {
+  var ind = nums.indexOf(target), lastInd
+  if(ind !== -1 && (lastInd = nums.lastIndexOf(target)) !== -1) return [ind, lastInd]
+  return [-1,-1]
+};
+
+})(false);
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 105
+// First Missing Positive
+// https://leetcode.com/problems/first-missing-positive/
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var firstMissingPositive = function(nums) {
+    
+};
+
+})(false);
+
+
+
+
+
