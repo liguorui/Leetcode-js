@@ -1278,6 +1278,10 @@ var hasPathSum = function(root, sum) {
   return isFind
 };
 
+// var hasPathSum = function(root, sum) {
+//   return root ? (!root.left && !root.right) ? sum === root.val : (hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val)) : false;
+// };
+
 })(false); 
 
 
@@ -2182,21 +2186,13 @@ if(!go) return;
  * @return {string}
  */
 var largestNumber = function(num) {
-  return num.sort(function(a,b){ return check(a, b) ? 1 : -1 }).join('').replace(/^0{1,}/, '0')
-  function check(a, b){
-    if(String(a).length === String(b).length) return a < b
-    var len = Math.min(String(a).length, String(b).length), max = Math.max(a,b)
-    if(String(a).substr(0, len) === String(b).substr(0, len)){
-      if(String(max).substr(0, 1) < String(max).substr(len, 1)) return b==max
-      else return a==max
-    }else return String(a).substr(0, len) < String(b).substr(0, len)
-  }
+  return num.sort(function(a, b){return (''+b+a)-(''+a+b)}).join('').replace(/^0*/,'') || '0'
 }
 
 console.log(largestNumber([97,91,90,63,90,92,89,76,76,67,55]));
 
 
-})(false); // no!!!
+})(false);
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3597,4 +3593,203 @@ var setZeroes = function(matrix) {
 console.log(setZeroes([[1,0,1,1],[1,0,1,1],[1,1,1,1]]));
 
 })(false);
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 111
+// Search a 2D Matrix
+// https://leetcode.com/problems/search-a-2d-matrix/
+
+/**
+ * @param {number[][]} matrix
+ * @param {number} target
+ * @return {boolean}
+ */
+var searchMatrix = function(matrix, target) {
+  for(var i=1, ind=-1;i<matrix.length;i++) if(matrix[i][0]>target&&((ind = i-1) || true)) break
+  return matrix[(ind !== -1 ? ind : matrix.length-1)].indexOf(target) !== -1
+};
+
+console.log(searchMatrix([
+  [1,   3,  5,  7],
+  [10, 11, 16, 20],
+  [23, 30, 34, 50]
+],3));
+
+})(false);
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 112
+// Minimum Window Substring
+// https://leetcode.com/problems/minimum-window-substring/
+
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {string}
+ */
+var minWindow = function(s, t) {
+  if(s.indexOf(t) !== -1) return t
+  else if(t.length > s.length) return ''
+  var min = Number.MAX_VALUE, r = '', ind
+  for(var i=0;i<s.length;i++){
+    if(t.indexOf(s[i]) !== -1){
+      for(var j=0, len=-1;j<t.length;j++){
+        if(t[j]!==s[i]){
+          if((ind = s.substr(i, min).indexOf(t[j]))!==-1){
+            len = Math.max(ind, len)
+          }
+          else{
+            len = -1
+            break
+          }
+        }
+      }
+      if(len !== -1 && len !== Number.MAX_VALUE && len < min) r = s.substr(i, (min = len)+1)
+    }
+  }
+  return r
+};
+
+console.log(minWindow('abc', 'aabc'));
+
+})(false); // no!!!
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 113
+// Number of Islands
+// https://leetcode.com/problems/number-of-islands/
+
+/**
+ * @param {character[][]} grid
+ * @return {number}
+ */
+var numIslands = function(grid) {
+  for(var num = 0, i=0;i<grid.length;i++){
+    for(var j=0;j<grid[0].length;j++){
+      if(grid[i] && grid[i][j]==='1' && (++num)) find(i,j)
+    }
+  }
+  function find(a,b){
+    grid[a][b] = '0'
+    for(var x=0;x<4;x++){
+      var n = x%2!==0 ? x-2 : 0, m = x%2===0 ? x-1 : 0
+      if(grid[a+n] && grid[a+n][b+m] === '1') find(a+n, b+m)
+    }
+  }
+  return num
+};
+
+// console.log(numIslands([['1','1','1','1','0'],
+// ['1','1','0','1','0'],
+// ['1','1','0','0','0'],
+// ['0','0','0','0','0']]));
+
+// console.log(numIslands([["0","0","0","0","0","0"]]));
+console.log(numIslands([['1'],['1']]));
+
+
+})(false);
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 114
+// Rotate List 
+// https://leetcode.com/problems/rotate-list/
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} k
+ * @return {ListNode}
+ */
+var rotateRight = function(head, k) {
+  if(!head) return null
+  var len = 1, node = head, newHead = head
+  while(node.next && ++len) node = node.next
+  node = head
+  while(node.next && len--){
+    if(len-k===0){
+      newHead = node.next
+      node.next = null
+      node = newHead
+    }else node = node.next
+  }
+  if(k>0) node.next = head
+  return newHead
+};
+
+  if(head==NULL)return NULL;
+  ListNode *p=head;
+  int n=0;
+  while(p->next)
+  {
+      p=p->next;
+      n++;
+  }
+  n++;
+  k=k%n;
+  p->next=head;
+  ListNode *q=head;
+  for(int i=0;i<n-k-1;i++)
+  q=q->next;
+  head=q->next;
+  q->next=NULL;   
+  return head;
+
+function ListNode(val) {
+    this.val = val;
+    this.next = null;
+}
+
+
+// var head = new ListNode(1)
+
+var head = new ListNode(1)
+// head.next = new ListNode(2)
+// head.next.next = new ListNode(3)
+// head.next.next.next = new ListNode(4)
+// head.next.next.next.next = new ListNode(5)
+
+console.log(rotateRight(head, 0));
+
+
+})(true);
+
+
+
 
