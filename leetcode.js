@@ -4,6 +4,11 @@
     * 2015.04.22
 */
 
+function ListNode(val) {
+    this.val = val;
+    this.next = null;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -3739,37 +3744,16 @@ if(!go) return;
  */
 var rotateRight = function(head, k) {
   if(!head) return null
-  var len = 1, node = head, newHead = head
+  var len = 1, node = head, newNode = head
   while(node.next && ++len) node = node.next
-  node = head
-  while(node.next && len--){
-    if(len-k===0){
-      newHead = node.next
-      node.next = null
-      node = newHead
-    }else node = node.next
-  }
-  if(k>0) node.next = head
-  return newHead
+  k %= len
+  node.next = head
+  for(var i=0;i<len-k-1;i++) newNode = newNode.next
+  head = newNode.next
+  newNode.next = null
+  return head
 };
 
-  if(head==NULL)return NULL;
-  ListNode *p=head;
-  int n=0;
-  while(p->next)
-  {
-      p=p->next;
-      n++;
-  }
-  n++;
-  k=k%n;
-  p->next=head;
-  ListNode *q=head;
-  for(int i=0;i<n-k-1;i++)
-  q=q->next;
-  head=q->next;
-  q->next=NULL;   
-  return head;
 
 function ListNode(val) {
     this.val = val;
@@ -3788,7 +3772,161 @@ var head = new ListNode(1)
 console.log(rotateRight(head, 0));
 
 
-})(true);
+})(false);
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 115
+// Insert Interval
+// https://leetcode.com/problems/insert-interval/
+
+/**
+ * Definition for an interval.
+ * function Interval(start, end) {
+ *     this.start = start;
+ *     this.end = end;
+ * }
+ */
+/**
+ * @param {Interval[]} intervals
+ * @param {Interval} newInterval
+ * @return {Interval[]}
+ */
+var insert = function(intervals, newInterval) {
+  intervals = intervals.sort(function(a, b){return a.start - b.start})
+  for(var i=0; i<intervals.length; i++){
+    
+  }
+};
+
+})(false);
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 116
+// Basic Calculator
+// https://leetcode.com/problems/basic-calculator/
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var calculate = function(s) {
+  s = s.replace(/\s/g, '')
+  if(!s.match(/[\(+-]/g)) return +s
+  while(s.indexOf('(')!==-1) s = s.replace(/\(([\+\-0-9]*)\)/g, function(i, j){return getValue(j)})
+  function getValue(str){
+    str = str.replace(/--/g, '+')
+    var nums = str.split(/[+-]/g), operators = str.match(/[+-]/g), val = +nums[0] || 0
+    if(operators) for(var i = 0; i < operators.length; i++) val += (operators[i] === '+' ? 1 : -1)*nums[i+1]
+    return ''+val
+  }
+  return +getValue(s)
+};
+
+// console.log(calculate('(1+(4+5+2 )-3) +(6 +8) '));
+console.log(calculate('1-(3+5-2+(3+19-(3-1-4+(9-4-(4-(1+(3)-2)-5)+8-(3-5)-1)-4)-5)-4+3-9)-4-(3+2-5)-10'));
+
+})(false);
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 117
+// Trapping Rain Water
+// https://leetcode.com/problems/trapping-rain-water/
+
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
+var trap = function(height) {
+  for(var max=Math.max.apply(null, height), left=0, right=max, r=0, i=0; i<height.length; i++){
+    if(height[i]===max && (left = max)) right = max = Math.max.apply(null, height.slice(i+1))
+    else r += Math.min((left = Math.max(left, height[i])), right) - height[i]
+  }
+  return r
+};
+
+console.log(trap([0,1,0,2,1,0,1,3,2,1,2,1], 6));
+
+})(false);
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+;(function(go){
+if(!go) return;
+
+// 118
+// Reorder List
+// https://leetcode.com/problems/reorder-list/
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {void} Do not return anything, modify head in-place instead.
+ */
+var reorderList = function(head) {
+  if(!head) return
+  var node = head, len = 1, l, nextHead = null, tmp
+  while(node.next && ++len) node = node.next
+  l = ~~(len/2)
+  node = head
+  while(len--){
+    if(len === l){
+      tmp = node.next
+      node.next = null
+      node = tmp
+    }else if(len < l){
+      tmp = nextHead
+      node = (nextHead = node).next
+      nextHead.next = tmp
+    }else node = node.next
+  }
+  node = head
+  while(l--){
+    tmp = nextHead.next
+    nextHead.next = node.next
+    node = (node.next = nextHead).next
+    nextHead = tmp
+  }
+};
+
+var head = new ListNode(1)
+head.next = new ListNode(2)
+head.next.next = new ListNode(3)
+head.next.next.next = new ListNode(4)
+head.next.next.next.next = new ListNode(5)
+
+console.log(reorderList(head));
+
+})(false);
 
 
 
